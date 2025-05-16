@@ -1,0 +1,94 @@
+{
+	"name": "vscode-debugger-session-tool",
+	"publisher": "firefox-devtools",
+	"displayName": "Debugger session tool",
+	"description": "A tool for Copilot to run debugger sessions with logpoints.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/hbenl/vscode-debugger-session-tool"
+	},
+	"version": "0.1.0",
+	"engines": {
+		"vscode": "^1.95.0"
+	},
+	"categories": [
+		"AI",
+		"Chat",
+		"Debuggers"
+	],
+	"activationEvents": [],
+	"contributes": {
+		"languageModelTools": [
+			{
+				"name": "debugger-session-tool",
+				"tags": [ "debugger" ],
+				"toolReferenceName": "debuggerSession",
+				"displayName": "Debugger session",
+				"userDescription": "This tool can be used to run a debugger session with logpoints.",
+				"modelDescription": "This will run a debugger session, set the specified logpoints, execute a script in the loaded page and return all log messages from the logpoints. You can use this to find out how the app reacts to certain user actions. Use the script to simulate the user's actions. Set logpoints to log the values of variables or expressions at certain lines in the source code.",
+				"canBeReferencedInPrompt": true,
+				"inputSchema": {
+					"type": "object",
+					"properties": {
+						"url": {
+							"type": "string",
+							"description": "The url of the page to load in the debugger session.",
+							"examples": [
+								"http://localhost:8080"
+							]
+						},
+						"script": {
+							"type": "string",
+							"description": "The script to execute in the loaded page.",
+							"examples": [
+								"document.querySelector('button').click();"
+							]
+						},
+						"logpoints": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"src":{
+										"type": "string",
+										"description": "The path of the source file in which to set the logpoint, relative to the root folder of the workspace."
+									},
+									"line": {
+										"type": "number",
+										"description": "The line number where the logpoint should be set."
+									},
+									"message": {
+										"type": "string",
+										"description": "The message to log.",
+										"examples": [
+											"The value of x is: {x}"
+										]
+									}
+								}
+							},
+							"description": "The logpoints to set in the loaded page."
+						}
+					}
+				}
+			}
+		]
+	},
+	"main": "./out/extension.js",
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint",
+		"watch": "tsc -watch -p ./"
+	},
+	"dependencies": {
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.13.0",
+		"@stylistic/eslint-plugin": "^2.9.0",
+		"@types/node": "^20",
+		"@types/vscode": "^1.95.0",
+		"eslint": "^9.13.0",
+		"typescript": "^5.8.2",
+		"typescript-eslint": "^8.26.0"
+	}
+}
