@@ -22,14 +22,14 @@ interface IDebuggerSessionParameters {
 export class DebuggerSessionTool implements vscode.LanguageModelTool<IDebuggerSessionParameters> {
 
 	prepareInvocation(
-		options: vscode.LanguageModelToolInvocationOptions<IDebuggerSessionParameters>,
+		_options: vscode.LanguageModelToolInvocationOptions<IDebuggerSessionParameters>,
 		_token: vscode.CancellationToken
 	): vscode.ProviderResult<vscode.PreparedToolInvocation> {
 		return {
 			invocationMessage: 'Running debugger session...',
 			confirmationMessages: {
 				title: 'Debugger Session',
-				message: `Run a debugger session on ${options.input.url} and execute "${options.input.script}" with logpoints at ${options.input.logpoints.map(logpoint => `${logpoint.src}:${logpoint.line}`).join(', ')}`,
+				message: new vscode.MarkdownString(`Run a debugger session with the following parameters:`),
 			}
 		};
 	}
@@ -59,7 +59,7 @@ async function runDebuggerSession(
 
 	const logpoints = params.logpoints.map(
 		logpoint => new vscode.SourceBreakpoint(
-			new vscode.Location(vscode.Uri.joinPath(workspaceFolder.uri, logpoint.src), new vscode.Position(logpoint.line, 0)),
+			new vscode.Location(vscode.Uri.joinPath(workspaceFolder.uri, logpoint.src), new vscode.Position(logpoint.line - 1, 0)),
 			true,
 			undefined,
 			undefined,

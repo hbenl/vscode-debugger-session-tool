@@ -32,7 +32,7 @@
 					"properties": {
 						"url": {
 							"type": "string",
-							"description": "The url of the page to load in the debugger session.",
+							"description": "The url of the page to load in the debugger session. If the workspace contains a debug configuration file, use the the url from that file.",
 							"examples": [
 								"http://localhost:8080"
 							]
@@ -64,11 +64,21 @@
 											"The value of x is: {x}"
 										]
 									}
-								}
+								},
+								"required": [
+									"src",
+									"line",
+									"message"
+								]
 							},
 							"description": "The logpoints to set in the loaded page."
 						}
-					}
+					},
+					"required": [
+						"url",
+						"script",
+						"logpoints"
+					]
 				}
 			}
 		]
